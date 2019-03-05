@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 12:24:36 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/04 12:43:03 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:21:14 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ static void	finish(t_stack **a, int max)
 void	sort(t_stack **a, t_stack **b, int max)
 {
 	begin(a, b, max);
-	while (*b)
-	 	base(a, b, max);
+	// while (*b)
+	//  	base(a, b, max);
 	finish(a, max);
 	show(*a, *b);
 }

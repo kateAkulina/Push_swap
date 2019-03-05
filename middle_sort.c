@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 14:26:53 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/05 15:37:46 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:14:40 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,22 @@ static int 	find_right(int n, t_stack *a, int max)
 	len = len_stack(a);
 	while (pl < len / 2 + len % 2)
 	{
-		if ((a->value < n || a->value == max) && a->next->value > n)
-			return (pl + 1);
+		if ((a->value < n && a->next->value) || (n == max && n > a->value))
+			return (-pl);
 		++pl;
 		a = a->next;
 	}
 	while (a->next)
 	{
 		if ((a->value < n || a->value == max) && a->next->value > n)
-			return (-pl);
+			return (len - pl);
 		++pl;
 		a = a->next;
 	}
 	return (0);
 }
 
-void	find_way(t_stack *a, t_stack *b, t_solve *what, int max)
+static void	find_way(t_stack *a, t_stack *b, t_solve *what, int max)
 {
 	int		pl_a;
 	int		pl_b;
@@ -107,7 +107,8 @@ void	find_way(t_stack *a, t_stack *b, t_solve *what, int max)
 		++pl_b;
 		b = b->next;
 	}
-	while (b)
+	pl_b = 0;
+	while (b && ++pl_b)
 	{
 		pl_a = find_right(b->value, a, max);
 		tp = pl_a < 0 ? -1 : 0;
@@ -116,7 +117,7 @@ void	find_way(t_stack *a, t_stack *b, t_solve *what, int max)
 		{
 			what->sta = pl_a;
 			what->stb = pl_b;
-			what->tpb_com = 0;
+			what->tpb_com = -1;
 			what->tpa_com = tp;
 		}
 		b = b->next;
