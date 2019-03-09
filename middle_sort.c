@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 14:26:53 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/05 17:14:40 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/09 16:34:06 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,114 +22,89 @@ static int	len_stack(t_stack *a)
 	return (len);
 }
 
-static void	do_sort(t_stack **a, t_stack **b, t_solve *what)
+static int	where_to_push(int n, t_stack *a, int max)
 {
-	while (what->tpa_com && what->tpb_com && what->sta && what->stb)
-	{
-		what->sta--;
-		what->stb--;
-		rr(a, b, 'r', 1);
-	}
-	while (what->tpa_com && what->sta)
-	{
-		what->sta--;
-		rr(a, b, 'a', 1);
-	}
-	while (what->tpb_com && what->stb)
-	{
-		what->stb--;
-		rr(a, b, 'b', 1);
-	}
-	while (!what->tpa_com && !what->tpb_com && what->sta && what->stb)
-	{
-		what->sta--;
-		what->stb--;
-		r(a, b, 'r', 1);
-	}
-	while (!what->tpa_com && what->sta)
-	{
-		what->sta--;
-		r(a, b, 'a', 1);
-	}
-	while (!what->tpb_com && what->stb)
-	{
-		what->stb--;
-		r(a, b, 'b', 1);
-	}
-	p(a, b, 'a', 1);
-}
-
-static int 	find_right(int n, t_stack *a, int max)
-{
+	int	apl;
 	int len;
-	int pl;
 
-	pl = 1;
 	len = len_stack(a);
-	while (pl < len / 2 + len % 2)
+	apl = 1;
+	while (apl <= len / 2)
 	{
-		if ((a->value < n && a->next->value) || (n == max && n > a->value))
-			return (-pl);
-		++pl;
+		if (a->next->value > n && (a->value < n || a->value == max))
+			return (apl);
+		++apl;
 		a = a->next;
 	}
-	while (a->next)
+	while(a->next)
 	{
 		if ((a->value < n || a->value == max) && a->next->value > n)
-			return (len - pl);
-		++pl;
+			return (apl - len);
+		++apl;
 		a = a->next;
 	}
 	return (0);
 }
 
-static void	find_way(t_stack *a, t_stack *b, t_solve *what, int max)
+static void	find_short_way(t_stack *a, t_stack *b, t_solve *w, int max)
 {
-	int		pl_a;
-	int		pl_b;
-	char	tp;
-	int		len;
+	int len;
+	int	apl;
+	int bpl;
 
-	pl_b = 1;
+	bpl = 0;
 	len = len_stack(b);
-	while (pl_b < len / 2 + len % 2)
+	while (bpl < len / 2 + len % 2)
 	{
-		pl_a = find_right(b->value, a, max);
-		tp = pl_a < 0 ? -1 : 0;
-		pl_a = pl_a < 0 ? -pl_a : pl_a;
-		if ((pl_b == 1) || (pl_a + pl_b < what->sta + what->stb))
+		apl = where_to_push(b->value, a, max);
+		if (!bpl || (apl + bpl < w->pla + w->plb))
 		{
-			what->sta = pl_a;
-			what->stb = pl_b;
-			what->tpb_com = 0;
-			what->tpa_com = tp;
-		}
-		++pl_b;
-		b = b->next;
-	}
-	pl_b = 0;
-	while (b && ++pl_b)
-	{
-		pl_a = find_right(b->value, a, max);
-		tp = pl_a < 0 ? -1 : 0;
-		pl_a = pl_a < 0 ? -pl_a : pl_a;
-		if (pl_a + pl_b < what->sta + what->stb)
-		{
-			what->sta = pl_a;
-			what->stb = pl_b;
-			what->tpb_com = -1;
-			what->tpa_com = tp;
+			w->pla = apl < 0 ? -apl : apl;
+			w->plb = bpl;
+			w->tpa = apl < 0 ? 1 : 0;
+			w->tpb = 0;
 		}
 		b = b->next;
+		++bpl;
 	}
-	printf("HERE A: %d, B: %d\n", what->sta, what->stb);
+	while(b)
+	{
+		apl = where_to_push(b->value, a, max);
+		if (apl + (len - bpl) < w->pla + w->plb)
+		{
+			w->pla = apl < 0 ? -apl : apl;
+			w->plb = len - bpl;
+			w->tpa = apl < 0 ? 1 : 0;
+			w->tpb = 1;
+		}
+		b = b->next;
+		++bpl;
+	}
+	// printf("HERE : PL_A: %d, TP_A: %d, PL_B: %d, TP_B: %d AND MAXIM: %d\n", w->pla, w->tpa, w->plb, w->tpb, max);
 }
 
-void	base(t_stack **a, t_stack **b, int max)
+void		sort_out(t_stack **a, t_stack **b, t_solve *w)
+{
+	while (w->tpa && w->tpb && w->plb && w->pla && w->plb-- && w->pla--)
+		rr(a, b, 'r', 1);
+	while (!w->tpa && !w->tpb && w->plb && w->pla && w->plb-- && w->pla--)
+		r(a, b, 'r', 1);
+	while (w->tpa && w->pla && w->pla--)
+		rr(a, b, 'a', 1);
+	while (w->tpb && w->plb && w->plb--)
+		rr(a, b, 'b', 1);
+	while (!w->tpa && w->pla && w->pla--)
+		r(a, b, 'a', 1);
+	while (!w->tpb && w->plb && w->plb--)
+		r(a, b, 'b', 1);
+	p(a, b, 'a', 1);
+}
+
+void		base(t_stack **a, t_stack **b, int max)
 {
 	t_solve what;
 	
-	find_way(*a, *b, &what, max);
-	show(*a, *b);
-	do_sort(a, b, &what);
+	find_short_way(*a, *b, &what, max);
+	sort_out(a, b, &what);
+	//show(*a, *b);
 }

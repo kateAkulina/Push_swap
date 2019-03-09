@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 17:32:02 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/02 19:02:23 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:19:31 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	show(t_stack *a, t_stack *b)
 		a = a ? a->next : a;
 		b = b ? b->next : b;
 	}
+	ft_printf("          ------\n");
 	ft_printf("          a >< b\n");
 }

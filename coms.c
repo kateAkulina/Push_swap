@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 16:32:17 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/02 18:50:32 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:15:58 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	s(t_stack **a, t_stack **b, char wh, char status)
 	*l = start;
 	if (wh == 's')
 		s(a, b, 'a', 0);
-	if (status == 1)
+	if (status > 0)
 		ft_printf("s%c\n", wh);
-	if (status == 2)
+	if (status > 1)
 		show(*a, *b);
 }
 
@@ -46,9 +46,9 @@ void	p(t_stack **a, t_stack **b, char wh, char status)
 	*from = (*from)->next;
 	tmp->next = *to;
 	*to = tmp;
-	if (status == 1)
+	if (status > 0)
 		ft_printf("p%c\n", wh);
-	if (status == 2)
+	if (status > 1)
 		show(*a, *b);
 }
 
@@ -70,9 +70,9 @@ void	r(t_stack **a, t_stack **b, char wh, char status) // 1 -> last
 	*l = start;
 	if (wh == 'r')
 		r(a, b, 'a', 0);
-	if (status == 1)
+	if (status > 0)
 		ft_printf("r%c\n", wh);
-	if (status == 2)
+	if (status > 1)
 		show(*a, *b);
 }
 
@@ -95,9 +95,9 @@ void	rr(t_stack **a, t_stack **b, char wh, char status) // last -> 1
 	*l = new_start;
 	if (wh == 'r')
 		rr(a, b, 'a', 0);
-	if (status == 1)
+	if (status > 0)
 		ft_printf("rr%c\n", wh);
-	if (status == 2)
+	if (status > 1)
 		show(*a, *b);
 }
 /* those are absolutely done */
