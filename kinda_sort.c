@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 12:24:36 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/09 20:43:41 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/10 14:57:29 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ static void	begin(t_stack **a, t_stack **b, int max)
 	if ((*a)->value < (*a)->next->value && (*a)->next->value < start->value)
 		return ;
 	else if ((*a)->value < (*a)->next->value && (*a)->value < start->value)
-		s(a, a, 'a', 2);
+		s(a, a, 'a', 1);
 	else
 	{
-		p(a, b, 'b', 2);
+		p(a, b, 'b', 1);
 		if ((*a)->value > start->value)
-			p(a, b, 'b', 2);
+			p(a, b, 'b', 1);
 	}
 }
 
@@ -87,9 +87,9 @@ static void	finish(t_stack **a, int max)
 void	sort(t_stack **a, t_stack **b, int max)
 {
 	begin(a, b, max);
-	// show(*a, *b);
+	//show(*a, *b);
 	while (*b)
 	 	base(a, b, max);
 	finish(a, max);
-	// show(*a, *b);
+	//show(*a, *b);
 }

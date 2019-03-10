@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 14:26:53 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/09 16:34:06 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/10 18:29:45 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	where_to_push(int n, t_stack *a, int max)
 
 	len = len_stack(a);
 	apl = 1;
-	while (apl <= len / 2)
+	while (apl < len / 2 + len % 2)
 	{
 		if (a->next->value > n && (a->value < n || a->value == max))
 			return (apl);
@@ -57,7 +57,7 @@ static void	find_short_way(t_stack *a, t_stack *b, t_solve *w, int max)
 	while (bpl < len / 2 + len % 2)
 	{
 		apl = where_to_push(b->value, a, max);
-		if (!bpl || (apl + bpl < w->pla + w->plb))
+		if (!bpl || ((apl < 0 ? -apl : apl) + bpl < w->pla + w->plb))
 		{
 			w->pla = apl < 0 ? -apl : apl;
 			w->plb = bpl;
