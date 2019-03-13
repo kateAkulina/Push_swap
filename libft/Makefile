@@ -6,7 +6,7 @@
 #    By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/24 16:27:08 by lcutjack          #+#    #+#              #
-#    Updated: 2019/03/01 18:29:32 by lcutjack         ###   ########.fr        #
+#    Updated: 2019/03/12 18:24:06 by lcutjack         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ $(NAME): $(OBJ) $(OBJPF)
 all: $(NAME)
 
 clean:
-	@/bin/rm -f $(OBJ)
+	@/bin/rm -f *.o
 
 fclean: clean
 	@/bin/rm -f $(NAME)

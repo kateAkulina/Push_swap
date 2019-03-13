@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 20:58:05 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/06 16:16:27 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/13 09:41:01 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ typedef	struct	s_stack {
 	struct s_stack	*next;
 }				t_stack;
 
+typedef struct	s_stacks
+{
+	t_stack		*a;
+	t_stack		*b;
+	int			status;
+}				t_base;
+
 typedef struct	s_solve
 {
 	int		pla;
@@ -35,14 +42,18 @@ typedef struct	s_solve
 }				t_solve;
 
 int				error(void);
-t_stack			*fill_stack(int c, char **av, int *max);
-void			base(t_stack **a, t_stack **b, int max);
-void			sort(t_stack **a, t_stack **b, int max);
+int				clean(t_stack *a);
+int				len_stack(t_stack *a);
+int				fill_stack(t_base *all, int c, char **av, int *max);
+void			base(t_base *all, int max);
+void			sort(t_base *all, int max);
 void			show(t_stack *a, t_stack *b);
-void			s(t_stack **a, t_stack **b, char wh, char status);
-void			p(t_stack **a, t_stack **b, char wh, char status);
-void			r(t_stack **a, t_stack **b, char wh, char status);
-void			rr(t_stack **a, t_stack **b, char wh, char status);
+void			s(t_base *all, char wh, char stat);
+void			p(t_base *all, char wh);
+void			r(t_base *all, char wh, char stat);
+void			rr(t_base *all, char wh, char stat);
+void			finish(t_base *all, int max);
+void			sort_3(t_base *all);
 int				is_sorted(t_stack *a, t_stack *b);
 
 #endif

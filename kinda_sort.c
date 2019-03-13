@@ -6,90 +6,95 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 12:24:36 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/10 14:57:29 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/13 09:55:48 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	sort_of_3(t_stack **a)
+static int		find_start(t_stack *a, int max)
 {
-	
+	int start;
+	int flw;
+	int flag;
+
+	flag = 0;
+	start = a->value;
+	while (a->next && (flw = a->next->value) != max)
+	{
+		if (a->value > flw && (flag = 1))
+			start = flw;
+		a = a->next;
+	}
+	return (start);
 }
 
-static void	begin(t_stack **a, t_stack **b, int max)
+static void		part_2(t_base *all, int mid, int max)
 {
-	t_stack	*start;
-	int		last;
-	int		l;
-	int		ll;
+	int	l;
+	int ll;
+	int last;
 
-	if (!(*a)->next || !(*a)->next->next)
+	r(all, 'a', 1);
+	l = all->a->value;
+	ll = all->a->next->value;
+	last = max;
+	while (l != mid)
 	{
-		if ((*a)->next && (*a)->value > (*a)->next->value)
-			s(a, a, 'a', 1);
-		return ;
-	}	
-	if ((*a)->value > (*a)->next->value)
-		s(a, b, 'a', 1);
-	start = *a;
-	last = start->value;
-	r(a, b, 'a', 1);
-	while (((*a)->next)->next != start)
-	{
-		l = (*a)->value;
-		ll = ((*a)->next)->value;
-		if (l > last && (last = l))
-			r(a, b, 'a', 1);
+		if (l > mid)
+			p(all, 'b');
+		else if ((l > last || max == last) && (last = l))
+			r(all, 'a', 1);
 		else
-			p(a, b, 'b', 1);
-	}
-	if ((*a)->value < (*a)->next->value && (*a)->next->value < start->value)
-		return ;
-	else if ((*a)->value < (*a)->next->value && (*a)->value < start->value)
-		s(a, a, 'a', 1);
-	else
-	{
-		p(a, b, 'b', 1);
-		if ((*a)->value > start->value)
-			p(a, b, 'b', 1);
+			p(all, 'b');
+		l = all->a->value;
+		ll = all->a->next->value;
 	}
 }
 
-static void	finish(t_stack **a, int max)
+static void		take_one_step(t_base *all, int l, int ll, int *last)
 {
-	int 	len_r;
-	int 	len_rr;
-	int 	len;
-	t_stack	*i;
-
-	len_r = 1;
-	len_rr = 0;
-	i = *a;
-	while (i->value != max && ++len_r)
-		i = i->next;
-	while (i->next && ++len_rr)
-		i = i->next;
-	if (!len_r || !len_rr)
-		return ;
-	if (len_r <= len_rr)
-	{
-		while (len_r--)
-			r(a, a, 'a', 1);
-	}
+	if (l > *last && (*last = l))
+		r(all, 'a', 1);
 	else
-	{
-		while (len_rr--)
-			rr(a, a, 'a', 1);
-	}
+		p(all, 'b');
 }
 
-void	sort(t_stack **a, t_stack **b, int max)
+static void		lets_start(t_base *all, int max, int l, int ll)
 {
-	begin(a, b, max);
-	//show(*a, *b);
-	while (*b)
-	 	base(a, b, max);
-	finish(a, max);
-	//show(*a, *b);
+	int last;
+	int mid;
+
+	if (!all->a || !all->a->next || !all->a->next->next || \
+		!all->a->next->next->next)
+	{
+		sort_3(all);
+		return ;
+	}
+	if (all->a->value > all->a->next->value)
+		s(all, 'a', 1);
+	last = all->a->value;
+	r(all, 'a', 1);
+	ll = all->a->next->value;
+	while ((l = all->a->value) != max)
+	{
+		take_one_step(all, l, ll, &last);
+		ll = all->a->next->value;
+	}
+	if (len_stack(all->a) == 3)
+		sort_3(all);
+	if ((mid = find_start(all->a->next, max)) == all->a->next->value)
+		return ;
+	part_2(all, mid, max);
+}
+
+void			sort(t_base *all, int max)
+{
+	int l;
+	int ll;
+
+	lets_start(all, max, l, ll);
+	while (all->b)
+		base(all, max);
+	finish(all, max);
 }

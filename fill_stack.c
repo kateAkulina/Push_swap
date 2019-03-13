@@ -6,33 +6,21 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 15:34:45 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/09 17:40:46 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/13 10:01:15 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int				error(void)
+static int	al_ex(int v, char *str, t_stack *a)
 {
-	ft_putstr_fd("Error\n", 2);
-	return (0);
-}
+	char *tmp;
 
-static t_stack	*clean(t_stack *a)
-{
-	t_stack	*n;
-
-	while (a)
-	{
-		n = a->next;
-		free(a);
-		a = n;
-	}
-	return (NULL);
-}
-
-static int		al_ex(int v, t_stack *a)
-{
+	tmp = ft_itoa(v);
+	if (ft_strlen(*str == '-' ? str + 1 : str) > 10 ||\
+		ft_strcmp(tmp, str))
+		return (1);
+	ft_strdel(&tmp);
 	while (a)
 	{
 		if (a->value == v)
@@ -42,53 +30,69 @@ static int		al_ex(int v, t_stack *a)
 	return (0);
 }
 
-t_stack			*fill_stack(int c, char **av, int *max)
+static char	**kind_of_st(t_base *all, char **av, int *c)
+{
+	int k;
+
+	k = 0;
+	if (!av[1])
+		return (av);
+	if ((*av)[2] == 'p')
+		k = 10;
+	if (!ft_strcmp(av[1], "-v") && --(*c) && (++av))
+		k += 1;
+	all->status = k;
+	return (av);
+}
+
+static int	add_some(t_stack **i, char **ar, int *m)
+{
+	int		len;
+	t_stack	*flw;
+
+	flw = *i;
+	len = 0;
+	while (ar[len])
+		++len;
+	while (len--)
+	{
+		if (ft_is_ok(ar[len] + (ar[len][0] == '-'), ft_isdigit))
+		{
+			*i = ft_memalloc(sizeof(t_stack));
+			(*i)->value = ft_atoi(ar[len]);
+			(*i)->next = flw;
+			if (al_ex((*i)->value, ar[len], flw))
+				return (clean(*i));
+		}
+		else
+			return (clean(flw));
+		*m = *m < (*i)->value ? (*i)->value : *m;
+		flw = *i;
+		ft_strdel(ar);
+	}
+	return (1);
+}
+
+int			fill_stack(t_base *all, int c, char **av, int *max)
 {
 	t_stack	*flw;
 	t_stack	*i;
 	char	**ar;
-	int		len;
 	int		m;
 
 	flw = NULL;
 	i = NULL;
 	m = -2147483648;
+	av = kind_of_st(all, av, &c);
 	while (--c)
 	{
 		ar = ft_strsplit(av[c], ' ');
-		len = 1;
-		while (ar[len])
-			++len;
-		while (--len + 1)
-		{
-			if (ft_is_ok(ar[len][0] == '-' && ar[len][1] ? ar[len] + 1 : ar[len], \
-				ft_isdigit) && (i = ft_memalloc(sizeof(t_stack))))
-			{
-				i->value = ft_atoi(ar[len]);
-				if (al_ex(i->value, flw))
-					return (clean(flw));
-			}
-			else
-				return (clean(flw));
-			m = i->value > m ? i->value : m;
-			i->next = flw;
-			flw = i;
-		}
+		if (!add_some(&i, ar, &m))
+			return (0);
 	}
 	if (max)
 		*max = m;
-	return (i);
-}
-
-int				is_sorted(t_stack *a, t_stack *b)
-{
-	if (b)
-		return (0);
-	while (a->next)
-	{
-		if (a->value > (a->next)->value)
-			return (0);
-		a = a->next;
-	}
+	all->a = i;
+	all->b = NULL;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 16:11:57 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/09 17:36:53 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/12 18:08:56 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ int	main(int ac, char **av)
 	t_stack	*a;
 	t_stack *b;
 	int		max;
+	t_base	all;
 
-	if (!(a = fill_stack(ac, av, &max)))
+	if (!fill_stack(&all, ac, av, &max))
 		return (error());
-	sort(&a, &b, max);
-	// show(a, b);
+	sort(&all, max);
+	clean(all.a);
 	return (0);
 }

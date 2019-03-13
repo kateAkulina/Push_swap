@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 17:37:32 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/06 18:36:46 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/12 18:20:00 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,36 +31,37 @@ static int	valid_com(char *line)
 	return (0);
 }
 
-static void	ex_com(t_stack **a, t_stack **b, char *line)
+static void	ex_com(t_base *all, char *line)
 {
 	if (line[2])
-		rr(a, b, line[2], 0);
+		rr(all, line[2], 1);
 	else if (*line == 's')
-		s(a, b, line[1], 0);
+		s(all, line[1], 1);
 	else if (*line == 'p')
-		p(a, b, line[1], 0);
+		p(all, line[1]);
 	else
-		r(a, b, line[1], 0);
+		r(all, line[1], 1);
 }
 
 int			main(int ac, char **av)
 {
 	char	*line;
-	t_stack	*a;
-	t_stack *b;
+	t_base	all;
+	int		*max;
 
-	if (!(a = fill_stack(ac, av, NULL)))
+	if (!fill_stack(&all, ac, av, max))
 		return (error());
 	while (get_next_line(0, &line) > 0)
 	{
 		if (!valid_com(line))
 			return (error());
-		ex_com(&a, &b, line);
-		// show(a, b);
+		ex_com(&all, line);
 	}
-	if (is_sorted(a, b))
+	if (is_sorted(all.a, all.b))
 		ft_putstr("OK\n");
 	else
 		ft_putstr("KO\n");
+	clean(all.a);
+	clean(all.b);
 	return (0);
 }
