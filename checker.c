@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 17:37:32 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/12 18:20:00 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/17 12:38:14 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			main(int ac, char **av)
 			return (error());
 		ex_com(&all, line);
 	}
-	if (is_sorted(all.a, all.b))
+	if (is_sorted(all.a, all.b, 0, 0))
 		ft_putstr("OK\n");
 	else
 		ft_putstr("KO\n");

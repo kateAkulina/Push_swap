@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 20:58:05 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/13 09:41:01 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/17 12:33:05 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void			r(t_base *all, char wh, char stat);
 void			rr(t_base *all, char wh, char stat);
 void			finish(t_base *all, int max);
 void			sort_3(t_base *all);
-int				is_sorted(t_stack *a, t_stack *b);
+int				is_sorted(t_stack *a, t_stack *b, int max, int stat);
 
 #endif

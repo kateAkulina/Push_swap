@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 15:34:45 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/13 10:01:15 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/17 12:07:44 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ static int	add_some(t_stack **i, char **ar, int *m)
 			return (clean(flw));
 		*m = *m < (*i)->value ? (*i)->value : *m;
 		flw = *i;
-		ft_strdel(ar);
+		free(ar[len]);
 	}
+	free(ar);
 	return (1);
 }
 

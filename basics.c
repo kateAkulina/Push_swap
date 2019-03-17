@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 12:28:07 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/12 18:11:24 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/17 12:49:54 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			clean(t_stack *a)
 	return (0);
 }
 
-int			is_sorted(t_stack *a, t_stack *b)
+int			is_sorted(t_stack *a, t_stack *b, int max, int stat)
 {
 	if (b)
 		return (0);
@@ -33,7 +33,9 @@ int			is_sorted(t_stack *a, t_stack *b)
 		return (1);
 	while (a->next)
 	{
-		if (a->value > (a->next)->value)
+		if ((!stat) && a->value > (a->next)->value)
+			return (0);
+		else if (stat && a->value > (a->next)->value && a->value != max)
 			return (0);
 		a = a->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 12:24:36 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/13 09:55:48 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/17 13:02:24 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void		part_2(t_base *all, int mid, int max)
 	last = max;
 	while (l != mid)
 	{
+		if (is_sorted(all->a, all->b, max, 1))
+			return ;
 		if (l > mid)
 			p(all, 'b');
 		else if ((l > last || max == last) && (last = l))
@@ -52,12 +54,13 @@ static void		part_2(t_base *all, int mid, int max)
 	}
 }
 
-static void		take_one_step(t_base *all, int l, int ll, int *last)
+static void		take_one_step(t_base *all, int l, int *ll, int *last)
 {
 	if (l > *last && (*last = l))
 		r(all, 'a', 1);
 	else
 		p(all, 'b');
+	*ll = all->a->next->value;
 }
 
 static void		lets_start(t_base *all, int max, int l, int ll)
@@ -78,8 +81,9 @@ static void		lets_start(t_base *all, int max, int l, int ll)
 	ll = all->a->next->value;
 	while ((l = all->a->value) != max)
 	{
-		take_one_step(all, l, ll, &last);
-		ll = all->a->next->value;
+		if (is_sorted(all->a, all->b, max, 1))
+			return ;
+		take_one_step(all, l, &ll, &last);
 	}
 	if (len_stack(all->a) == 3)
 		sort_3(all);
@@ -93,8 +97,11 @@ void			sort(t_base *all, int max)
 	int l;
 	int ll;
 
-	lets_start(all, max, l, ll);
-	while (all->b)
-		base(all, max);
+	if (!is_sorted(all->a, all->b, max, 1))
+	{
+		lets_start(all, max, l, ll);
+		while (all->b)
+			base(all, max);
+	}
 	finish(all, max);
 }
