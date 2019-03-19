@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 12:24:36 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/17 13:02:24 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/19 16:38:49 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ static void		lets_start(t_base *all, int max, int l, int ll)
 		sort_3(all);
 		return ;
 	}
-	if (all->a->value > all->a->next->value)
-		s(all, 'a', 1);
 	last = all->a->value;
 	r(all, 'a', 1);
 	ll = all->a->next->value;
