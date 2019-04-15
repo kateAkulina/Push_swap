@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 15:34:45 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/17 12:07:44 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/04/13 20:31:21 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,21 @@ static char	**kind_of_st(t_base *all, char **av, int *c)
 	return (av);
 }
 
-static int	add_some(t_stack **i, char **ar, int *m)
+static int	free_mas(char **ar)
+{
+	int i;
+
+	i = 0;
+	while (ar[i])
+	{
+		free(ar[i]);
+		++i;
+	}
+	free(ar);
+	return (0);
+}
+
+static int	add_some(t_stack **i, char **ar, t_base *all)
 {
 	int		len;
 	t_stack	*flw;
@@ -62,15 +76,15 @@ static int	add_some(t_stack **i, char **ar, int *m)
 			(*i)->value = ft_atoi(ar[len]);
 			(*i)->next = flw;
 			if (al_ex((*i)->value, ar[len], flw))
-				return (clean(*i));
+				return (clean(*i) * free_mas(ar));
 		}
 		else
-			return (clean(flw));
-		*m = *m < (*i)->value ? (*i)->value : *m;
+			return (clean(flw) * free_mas(ar));
+		all->max = all->max < (*i)->value ? (*i)->value : all->max;
+		all->min = all->min > (*i)->value ? (*i)->value : all->min;
 		flw = *i;
-		free(ar[len]);
 	}
-	free(ar);
+	free_mas(ar);
 	return (1);
 }
 
@@ -79,20 +93,18 @@ int			fill_stack(t_base *all, int c, char **av, int *max)
 	t_stack	*flw;
 	t_stack	*i;
 	char	**ar;
-	int		m;
 
 	flw = NULL;
 	i = NULL;
-	m = -2147483648;
+	all->max = -2147483648;
+	all->min = 2147483647;
 	av = kind_of_st(all, av, &c);
 	while (--c)
 	{
 		ar = ft_strsplit(av[c], ' ');
-		if (!add_some(&i, ar, &m))
+		if (!add_some(&i, ar, all))
 			return (0);
 	}
-	if (max)
-		*max = m;
 	all->a = i;
 	all->b = NULL;
 	return (1);

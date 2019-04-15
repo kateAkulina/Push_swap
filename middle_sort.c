@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 14:26:53 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/17 12:18:07 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/04/12 17:05:52 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,23 @@ static int	where_to_push(int n, t_stack *a, int max)
 static void	do_it_right(t_solve *w, int apl, int bpl, int tpb)
 {
 	int	tpa;
-	int way;
 
 	tpa = apl < 0 ? 1 : 0;
 	apl = apl < 0 ? -apl : apl;
-	if (tpb == tpa || !bpl)
+	if (tpb == tpa)
 	{
-		way = apl > bpl ? apl : bpl;
-		if (way < w->pla + w->plb || !bpl)
+		if ((apl > bpl ? apl : bpl) < w->way)
 		{
+			w->way = apl > bpl ? apl : bpl;
 			w->pla = apl;
 			w->plb = bpl;
 			w->tpa = tpa;
 			w->tpb = 0;
 		}
 	}
-	else if (apl + bpl < w->pla + w->plb)
+	else if ((apl + bpl) < w->way)
 	{
+		w->way = apl + bpl;
 		w->pla = apl;
 		w->plb = bpl;
 		w->tpa = tpa;
@@ -102,6 +102,7 @@ void		base(t_base *all, int max)
 {
 	t_solve w;
 
+	w.way = len_stack(all->a) + len_stack(all->b);
 	find_short_way(all->a, all->b, &w, max);
 	while (w.tpa && w.tpb && w.plb && w.pla && w.plb-- && w.pla--)
 		rr(all, 'r', 1);

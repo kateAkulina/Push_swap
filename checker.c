@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 17:37:32 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/17 12:38:14 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/03/21 15:37:25 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,14 @@ int			main(int ac, char **av)
 
 	if (!fill_stack(&all, ac, av, max))
 		return (error());
+	if (!all.a)
+		return (0);
 	while (get_next_line(0, &line) > 0)
 	{
 		if (!valid_com(line))
 			return (error());
 		ex_com(&all, line);
+		free(line);
 	}
 	if (is_sorted(all.a, all.b, 0, 0))
 		ft_putstr("OK\n");

@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 12:28:07 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/03/19 16:27:54 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/04/12 17:12:54 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int			clean(t_stack *a)
 {
 	t_stack	*n;
 
+	if (!a)
+		return (0);
 	while (a)
 	{
 		n = a->next;
