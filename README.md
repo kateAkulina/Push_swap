@@ -1,6 +1,6 @@
 # Push_swap
 
-<h3> This project is about sorting numbers considering two stacks and using only the following instructions: <h3>
+<h3> This project is about sorting numbers considering two stacks and using only the following instructions: </h3>
 
 **sa** : swap a - swap the first 2 elements at the top of stack a . Do nothing if there is only one or no elements).
 
