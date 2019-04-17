@@ -23,3 +23,18 @@
 **rrb** : reverse rotate b - shift down all elements of stack b by 1. The flast element becomes the first one.
 
 **rrr** : rra and rrb at the same time
+
+<h1> How to use it ? </h1>
+
+Compiling: **make all**
+
+To generate the set of instructions for a set of numbers:
+
+**./push_swap n1 n2 n3...**
+and to check wether the set of instructions really sorts:
+
+**./push_swap n1 n2 n3... | ./checker [-v] n1 n2 n3 ...**
+
+***Example***
+
+ARG=ruby -e "puts (-50..50).to_a.shuffle.join(' ')" ; ./push_swap $ARG | ./checker -v $ARG
