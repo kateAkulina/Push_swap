@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 20:58:05 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/04/13 20:28:13 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/04/12 17:07:29 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ typedef struct	s_stacks
 	t_stack		*a;
 	t_stack		*b;
 	int			status;
-	int			min;
-	int			max;
 }				t_base;
 
 typedef struct	s_solve

@@ -6,7 +6,7 @@
 /*   By: lcutjack <lcutjack@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 15:34:45 by lcutjack          #+#    #+#             */
-/*   Updated: 2019/04/13 20:31:21 by lcutjack         ###   ########.fr       */
+/*   Updated: 2019/04/12 17:36:09 by lcutjack         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	free_mas(char **ar)
 	return (0);
 }
 
-static int	add_some(t_stack **i, char **ar, t_base *all)
+static int	add_some(t_stack **i, char **ar, int *m)
 {
 	int		len;
 	t_stack	*flw;
@@ -80,8 +80,7 @@ static int	add_some(t_stack **i, char **ar, t_base *all)
 		}
 		else
 			return (clean(flw) * free_mas(ar));
-		all->max = all->max < (*i)->value ? (*i)->value : all->max;
-		all->min = all->min > (*i)->value ? (*i)->value : all->min;
+		*m = *m < (*i)->value ? (*i)->value : *m;
 		flw = *i;
 	}
 	free_mas(ar);
@@ -93,18 +92,20 @@ int			fill_stack(t_base *all, int c, char **av, int *max)
 	t_stack	*flw;
 	t_stack	*i;
 	char	**ar;
+	int		m;
 
 	flw = NULL;
 	i = NULL;
-	all->max = -2147483648;
-	all->min = 2147483647;
+	m = -2147483648;
 	av = kind_of_st(all, av, &c);
 	while (--c)
 	{
 		ar = ft_strsplit(av[c], ' ');
-		if (!add_some(&i, ar, all))
+		if (!add_some(&i, ar, &m))
 			return (0);
 	}
+	if (max)
+		*max = m;
 	all->a = i;
 	all->b = NULL;
 	return (1);
